@@ -1,0 +1,55 @@
+28. Write a script to create “cricket.xml” file with multiple elements as shown below:
+&lt;CricketTeam&gt;
+&lt;Team country=”Australia”&gt;
+&lt;player&gt;____&lt;/player&gt;
+&lt;runs&gt;______&lt;/runs&gt;
+&lt;wicket&gt;____&lt;/wicket&gt;
+&lt;/Team&gt;
+&lt;/CricketTeam&gt;
+
+Write a script to add multiple elements in “cricket.xml” file of category, country=”India”.
+Solution:cricket.xml
+
+<?php
+$xml = new SimpleXMLElement('<CricketTeam></CricketTeam>');
+
+// Add Team Australia
+$team = $xml->addChild('Team');
+$team->addAttribute('country', 'Australia');
+
+$player = $team->addChild('player', 'David Warner');
+$team->addChild('runs', '560');
+$team->addChild('wicket', '15');
+
+// Save to file
+$xml->asXML('cricket.xml');
+
+echo "cricket.xml created with Australia team!";
+?>
+
+vim cricket.php
+
+<?php
+// Load existing cricket.xml
+$xml = simplexml_load_file('cricket.xml');
+
+// Add Team India
+$indiaPlayers = [
+    ['player'=>'Virat Kohli', 'runs'=>'720', 'wicket'=>'5'],
+    ['player'=>'Rohit Sharma', 'runs'=>'680', 'wicket'=>'2'],
+    ['player'=>'Jasprit Bumrah', 'runs'=>'120', 'wicket'=>'20']
+];
+
+foreach($indiaPlayers as $p) {
+    $team = $xml->addChild('Team');
+    $team->addAttribute('country', 'India');
+    $team->addChild('player', $p['player']);
+    $team->addChild('runs', $p['runs']);
+    $team->addChild('wicket', $p['wicket']);
+}
+
+// Save updated XML
+$xml->asXML('cricket.xml');
+
+echo "India team added to cricket.xml!";
+?>
