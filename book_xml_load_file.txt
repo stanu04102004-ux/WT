@@ -1,0 +1,36 @@
+book.xml
+
+<?xml version="1.0"?>
+<books>
+    <book>
+        <title>PHP Basics</title>
+        <author>John</author>
+    </book>
+    <book>
+        <title>Java Guide</title>
+        <author>James</author>
+    </book>
+</books>
+
+
+book.php
+
+
+<?php
+$xml = simplexml_load_file("book.xml");
+?>
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Book Details</h2>
+
+<?php
+foreach($xml->book as $b) {
+    echo "Title: " . $b->title . "<br>";
+    echo "Author: " . $b->author . "<br><br>";
+}
+?>
+
+</body>
+</html>

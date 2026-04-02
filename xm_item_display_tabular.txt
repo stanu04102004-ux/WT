@@ -1,0 +1,45 @@
+item.xml
+
+
+<?xml version="1.0"?>
+<items>
+    <item><name>Pen</name><rate>10</rate><qty>5</qty></item>
+    <item><name>Book</name><rate>50</rate><qty>2</qty></item>
+    <item><name>Pencil</name><rate>5</rate><qty>10</qty></item>
+    <item><name>Eraser</name><rate>3</rate><qty>7</qty></item>
+    <item><name>Scale</name><rate>15</rate><qty>4</qty></item>
+</items>
+
+ 
+item.php
+
+<?php
+$xml = simplexml_load_file("item.xml");
+?>
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Item List</h2>
+
+<table border="1">
+<tr>
+    <th>Name</th>
+    <th>Rate</th>
+    <th>Quantity</th>
+</tr>
+
+<?php
+foreach($xml->item as $i) {
+    echo "<tr>
+        <td>$i->name</td>
+        <td>$i->rate</td>
+        <td>$i->qty</td>
+    </tr>";
+}
+?>
+
+</table>
+
+</body>
+</html>

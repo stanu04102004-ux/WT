@@ -1,0 +1,51 @@
+Counter.php
+
+<?php
+session_start();
+
+if(isset($_SESSION['count'])) {
+    $_SESSION['count']++;
+} else {
+    $_SESSION['count'] = 1;
+}
+?>
+
+counter.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session Counter</title>
+</head>
+<body>
+    <h2>You have visited this page <?php echo $_SESSION['count']; ?> times in this session.</h2>
+</body>
+</html>
+
+
+
+OR
+
+<?php
+session_start();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session Counter</title>
+</head>
+<body>
+
+<?php
+if (!isset($_SESSION['count'])) {
+    $_SESSION['count'] = 1;
+} else {
+    $_SESSION['count']++;
+}
+
+echo "<h2>Page Visit Counter</h2>";
+echo "Visited: " . $_SESSION['count'] . " times";
+?>
+
+</body>
+</html>

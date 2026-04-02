@@ -1,0 +1,39 @@
+OnblurOnload.html
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<input type="text" id="name" onblur="checkName()"><br><br>
+
+<img src="https://via.placeholder.com/100" id="img"
+onmouseover="zoomIn()"
+onmouseout="zoomOut()"
+onclick="changeSize()">
+
+<script>
+function checkName() {
+    let name = document.getElementById("name").value;
+
+    if(name != "") {
+        let box = document.getElementById("name");
+        box.style.color = "red";
+        box.style.fontSize = "18px";
+    }
+}
+
+function zoomIn() {
+    document.getElementById("img").style.width = "150px";
+}
+
+function zoomOut() {
+    document.getElementById("img").style.width = "100px";
+}
+
+function changeSize() {
+    document.getElementById("img").style.width = "200px";
+}
+</script>
+
+</body>
+</html>

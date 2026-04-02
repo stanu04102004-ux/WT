@@ -1,0 +1,23 @@
+exam.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>JS Prompt</title>
+</head>
+<body>
+
+<script>
+alert("Exams are near, have you started preparing?");
+
+let n1 = prompt("Enter first number:");
+let n2 = prompt("Enter second number:");
+
+if (confirm("Do you want to add them?")) {
+    let sum = Number(n1) + Number(n2);
+    alert("Sum = " + sum);
+}
+</script>
+
+</body>
+</html>

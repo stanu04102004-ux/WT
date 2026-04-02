@@ -1,0 +1,68 @@
+book.xml
+
+<?xml version="1.0"?>
+<books>
+    <book>
+        <title>PHP</title>
+        <author>John</author>
+        <year>2020</year>
+        <price>500</price>
+    </book>
+    <book>
+        <title>Java</title>
+        <author>James</author>
+        <year>2019</year>
+        <price>600</price>
+    </book>
+</books>
+
+q23.html
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<select onchange="loadBook(this.value)">
+<option value="">Select Book</option>
+<option value="PHP">PHP</option>
+<option value="Java">Java</option>
+</select>
+
+<div id="data"></div>
+
+<script>
+function loadBook(title) {
+    if(title=="") return;
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if(this.readyState==4 && this.status==200) {
+            document.getElementById("data").innerHTML=this.responseText;
+        }
+    };
+
+    xhttp.open("GET","q23.php?title="+title,true);
+    xhttp.send();
+}
+</script>
+
+</body>
+</html>
+
+
+
+q23.php
+
+<?php
+$xml = simplexml_load_file("book.xml");
+$title = $_GET['title'];
+
+foreach($xml->book as $b) {
+    if($b->title == $title) {
+        echo "Title: $b->title<br>";
+        echo "Author: $b->author<br>";
+        echo "Year: $b->year<br>";
+        echo "Price: $b->price<br>";
+    }
+}
+?>

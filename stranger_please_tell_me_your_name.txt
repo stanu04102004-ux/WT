@@ -1,0 +1,44 @@
+stranger please tell me your name
+
+19.html
+
+<!DOCTYPE html>
+<html>
+<body>
+
+Enter Name: <input type="text" onkeyup="show(this.value)">
+<div id="msg"></div>
+
+<script>
+function show(name) {
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            document.getElementById("msg").innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET","q19.php?name="+name,true);
+    xhttp.send();
+}
+</script>
+
+</body>
+</html>
+
+
+19.php
+
+<?php
+$name = $_GET['name'] ?? "";
+
+$known = ["Rohit","Virat","Dhoni","Ashwin","Harbhajan"];
+
+if($name == "")
+    echo "Stranger, please tell me your name!";
+else if(in_array($name,$known))
+    echo "Hello, master!";
+else
+    echo "I don't know you!";
+?>

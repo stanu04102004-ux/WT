@@ -1,0 +1,53 @@
+student.xml
+
+<?xml version="1.0"?>
+<students>
+    <student>
+        <rollno>1</rollno>
+        <name>Amit</name>
+        <address>Pune</address>
+        <college>ABC</college>
+        <course>BCA</course>
+    </student>
+    <student>
+        <rollno>2</rollno>
+        <name>Riya</name>
+        <address>Mumbai</address>
+        <college>XYZ</college>
+        <course>BSc</course>
+    </student>
+</students>
+
+Student.php
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="get">
+Enter Course: <input type="text" name="course">
+<input type="submit">
+</form>
+
+<?php
+if(isset($_GET['course'])) {
+    $xml = simplexml_load_file("student.xml");
+    $course = $_GET['course'];
+
+    echo "<table border=1>";
+    foreach($xml->student as $s) {
+        if($s->course == $course) {
+            echo "<tr>
+                <td>$s->rollno</td>
+                <td>$s->name</td>
+                <td>$s->address</td>
+                <td>$s->college</td>
+            </tr>";
+        }
+    }
+    echo "</table>";
+}
+?>
+
+</body>
+</html>

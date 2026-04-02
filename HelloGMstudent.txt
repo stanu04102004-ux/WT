@@ -1,0 +1,25 @@
+HelloGMstudent
+
+student.html
+
+<!DOCTYPE html>
+<html>
+<body onload="welcome()">
+
+<script>
+function welcome() {
+    alert("Hello Good Morning");
+}
+</script>
+
+<h2>Student Registration</h2>
+
+<form>
+Name: <input type="text"><br>
+Email: <input type="email"><br>
+Phone no:<input type="text"><br>
+<input type="submit">
+</form>
+
+</body>
+</html>

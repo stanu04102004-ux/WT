@@ -1,0 +1,33 @@
+validate.html 
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<form onsubmit="return validate()">
+Username: <input type="text" id="user"><br>
+Password: <input type="password" id="pass"><br>
+<input type="submit">
+</form>
+
+<script>
+function validate() {
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
+
+    if(u == "" || p == "") {
+        alert("Fields cannot be empty");
+        return false;
+    }
+
+    if(p.length < 6) {
+        alert("Password must be at least 6 characters");
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+</body>
+</html>

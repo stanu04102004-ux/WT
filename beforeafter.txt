@@ -1,0 +1,23 @@
+beforeafter
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>jQuery Example</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+<p id="p">This is a paragraph</p>
+<button onclick="modify()">Click</button>
+
+<script>
+function modify() {
+    $("#p").before("<b>Before Text</b><br>");
+    $("#p").after("<br><b>After Text</b>");
+}
+</script>
+
+</body>
+</html>
