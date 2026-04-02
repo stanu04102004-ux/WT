@@ -1,0 +1,66 @@
+9. Write a PHP script to read “Movie.xml” file and print all MovieTitle and ActorName
+of file using DOM Document Parser. “Movie.xml” file should contain the following
+information with at least 5 records with values. MovieInfoMovieNo, MovieTitle,
+ActorName ,ReleaseYear.
+Solution:
+vim movie.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<movies>
+    <movie>
+        <MovieNo>1</MovieNo>
+        <MovieTitle>3 Idiots</MovieTitle>
+        <ActorName>Aamir Khan</ActorName>
+        <ReleaseYear>2009</ReleaseYear>
+    </movie>
+
+    <movie>
+        <MovieNo>2</MovieNo>
+        <MovieTitle>Dangal</MovieTitle>
+        <ActorName>Aamir Khan</ActorName>
+        <ReleaseYear>2016</ReleaseYear>
+    </movie>
+
+    <movie>
+        <MovieNo>3</MovieNo>
+        <MovieTitle>Pathaan</MovieTitle>
+        <ActorName>Shah Rukh Khan</ActorName>
+        <ReleaseYear>2023</ReleaseYear>
+    </movie>
+
+    <movie>
+        <MovieNo>4</MovieNo>
+        <MovieTitle>War</MovieTitle>
+        <ActorName>Hrithik Roshan</ActorName>
+        <ReleaseYear>2019</ReleaseYear>
+    </movie>
+
+    <movie>
+        <MovieNo>5</MovieNo>
+        <MovieTitle>Pushpa</MovieTitle>
+        <ActorName>Allu Arjun</ActorName>
+        <ReleaseYear>2021</ReleaseYear>
+    </movie>
+</movies>
+
+vim movie.php
+<?php
+$xml = new DOMDocument("1.0","UTF-8");
+
+
+// Load XML file
+$xml->load("Movie.xml");
+
+$movies = $xml->getElementsByTagName("movie");
+
+echo "<h2>Movie Details</h2>";
+
+foreach($movies as $m) {
+
+    $title = $m->getElementsByTagName("MovieTitle")->item(0)->nodeValue;
+    $actor = $m->getElementsByTagName("ActorName")->item(0)->nodeValue;
+
+    echo "Movie Title: " . $title . "<br>";
+    echo "Actor Name: " . $actor . "<br><br>";
+}
+?>
+http://localhost/movie/movie.php

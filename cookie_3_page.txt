@@ -1,0 +1,61 @@
+3.Write a PHP script to change the preferences of your web page like font style, font size,
+font color, background color using cookie. Display selected settings on the next web
+page and actual implementation (with new settings) on the third page (Use Cookies).
+Solution:
+
+settings.html
+<html>
+<head>
+    <title>Appearence Setting</title>
+</head>
+<body>
+    <h1>Select appearance setting</h1>
+    <form method="POST" action="save.php">
+        Font Style:
+        <select name = "font" >
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Verdana">Verdana</option>
+        </select><br><br>
+
+        Font Size:
+        <select name = "size" >
+            <option value="16px">16px</option>
+            <option value="20px">20px</option>
+            <option value="24px">24px</option>
+        </select><br><br>
+
+       Font Color:
+       <input type="color" name="color"><br><br>
+
+       Background Color:
+       <input type="color" name="bgcolor"><br><br>
+
+       <input type="Submit" value="Save Settings">
+
+    </form>
+</body>
+</html>
+
+vim save.php
+<?php
+setcookie("font",$_POST['font']);
+setcookie("size",$_POST['size']);
+setcookie("color",$_POST['color']);
+setcookie("bgcolor",$_POST['bgcolor']);
+header("location:display.php");
+?>
+
+vim display.php
+<html>
+    <head>
+        <titke>Styled page</titke>
+    </head>
+    <body style="font-family:<?php echo $_COOKIE['font'];?>;
+                font-size:<?php echo $_COOKIE['size'];?>;
+                color:<?php echo $_COOKIE['color'];?>;
+                background-color:<?php echo $_COOKIE['bgcolor'];?>;">
+            <h2>Appearance Applied Succesfully!!</h2>
+            <p>This page uses your related font , size, color and background color</p>
+    </body>
+</html>

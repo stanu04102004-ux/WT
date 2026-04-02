@@ -1,0 +1,103 @@
+21. Create a TEACHER table as follows TEACHER(tno, tname, qualification, salary). Write
+an Ajax program to select a teachers name and print the selected teachers details.
+Solution:
+CREATE TABLE TEACHER (
+    tno INT PRIMARY KEY,
+    tname VARCHAR(50),
+    qualification VARCHAR(30),
+    salary INT
+);
+
+INSERT INTO TEACHER VALUES
+(1, 'Anita', 'MSc', 60000),
+(2, 'Ramesh', 'PhD', 80000),
+(3, 'Suresh', 'MTech', 50000),
+(4, 'Kavita', 'PhD', 90000);
+
+vim index.html
+<html>
+<head>
+<script>
+function showTeacher(str) {
+    if (str == "") {
+        document.getElementById("result").innerHTML = "";
+        return;
+    }
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("result").innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "teacher.php?tname=" + str, true);
+    xhttp.send();
+}
+</script>
+</head>
+
+<body>
+
+<h2>Select Teacher:</h2>
+
+<select onchange="showTeacher(this.value)">
+    <option value="">Select</option>
+    <option value="Anita">Anita</option>
+    <option value="Ramesh">Ramesh</option>
+    <option value="Suresh">Suresh</option>
+    <option value="Kavita">Kavita</option>
+</select>
+
+<div id="result"></div>
+
+</body>
+</html>
+
+
+vim teacher.php
+<?php
+
+$conn = pg_connect("host=localhost dbname=college user=root password=12345");
+
+if (!$conn) {
+    die("Connection failed");
+}
+
+$tname = $_GET['tname'];
+
+$query = "SELECT * FROM TEACHER WHERE tname = '$tname'";
+$result = pg_query($conn, $query);
+
+if (pg_num_rows($result) > 0) {
+
+    echo "<table border='1'>";
+    echo "<tr>
+            <th>TNo</th>
+            <th>Name</th>
+            <th>Qualification</th>
+            <th>Salary</th>
+          </tr>";
+
+    while ($row = pg_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>".$row['tno']."</td>";
+        echo "<td>".$row['tname']."</td>";
+        echo "<td>".$row['qualification']."</td>";
+        echo "<td>".$row['salary']."</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+
+} else {
+    echo "No record found";
+}
+
+pg_close($conn);
+
+?>
+
+run:php -S localhost:8000
+http://localhost/index.html

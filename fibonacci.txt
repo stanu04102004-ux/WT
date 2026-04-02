@@ -1,0 +1,38 @@
+26. Write a Java Script Program to print Fibonacci numbers on onclick event.
+Solution:fibo.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fibonacci Series</title>
+
+    <script>
+        function showFibonacci() {
+            var n = prompt("Enter number of terms:");
+            var a = 0, b = 1, c;
+
+            var result = "Fibonacci Series: " + a + " " + b + " ";
+
+            for(var i = 3; i <= n; i++) {
+                c = a + b;
+                result += c + " ";
+                a = b;
+                b = c;
+            }
+
+            document.getElementById("output").innerHTML = result;
+        }
+    </script>
+</head>
+
+<body>
+
+<h2>Fibonacci Series</h2>
+
+<button onclick="showFibonacci()">Print Fibonacci</button>
+
+<p id="output"></p>
+
+</body>
+</html>
+
+run:localhost/fibo.html

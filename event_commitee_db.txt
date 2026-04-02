@@ -1,0 +1,102 @@
+13. Consider the following entities and their relationships
+
+Event (eno , title , date )
+Committee ( cno , name, head , from_time ,to_time , status)
+Event and Committee have many to many relationship. Write a php script to accept title of
+event and modify status committee as working.
+
+Solution:
+CREATE DATABASE college;
+\c college;
+
+CREATE TABLE Event (
+    eno INT PRIMARY KEY,
+    title VARCHAR(50),
+    date DATE
+);
+
+CREATE TABLE Committee (
+    cno INT PRIMARY KEY,
+    name VARCHAR(50),
+    head VARCHAR(50),
+    from_time TIME,
+    to_time TIME,
+    status VARCHAR(20)
+);
+
+CREATE TABLE Event_Committee (
+    eno INT,
+    cno INT,
+    PRIMARY KEY (eno, cno),
+    FOREIGN KEY (eno) REFERENCES Event(eno),
+    FOREIGN KEY (cno) REFERENCES Committee(cno)
+);
+
+
+INSERT INTO Event VALUES
+(1, 'Annual Day', '2024-01-10'),
+(2, 'Sports Day', '2024-02-15');
+
+INSERT INTO Committee VALUES
+(101, 'Management', 'Amit', '09:00', '12:00', 'idle'),
+(102, 'Sports', 'Rahul', '10:00', '02:00', 'idle');
+
+INSERT INTO Event_Committee VALUES
+(1, 101),
+(1, 102),
+(2, 102);
+
+vim index.html
+<html>
+<body>
+
+<h2>Enter Event Title</h2>
+
+<form method="post" action="update.php">
+    Event Title: <input type="text" name="title" required>
+    <input type="submit" value="Update Status">
+</form>
+
+</body>
+</html>
+
+vim update.php
+<?php
+
+$conn = pg_connect("host=localhost dbname=college user=root password=12345");
+
+if (!$conn) {
+    die("Connection failed");
+}
+
+$title = $_POST['title'];
+
+// Update query using JOIN
+$query = "
+UPDATE Committee
+SET status = 'working'
+WHERE cno IN (
+    SELECT ec.cno
+    FROM Event_Committee ec
+    JOIN Event e ON ec.eno = e.eno
+    WHERE e.title = '$title'
+)";
+
+$result = pg_query($conn, $query);
+
+if ($result) {
+    echo "Committee status updated successfully!";
+} else {
+    echo "Error updating record.";
+}
+
+pg_close($conn);
+
+?>
+
+Run-->>http://localhost/index.html
+User enters:
+
+Annual Day
+
+SELECT * FROM Committee;

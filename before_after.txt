@@ -1,0 +1,39 @@
+15. Create a HTML file to insert text before and after a Paragraph using jQuery. [Hint :
+Use before( ) and after( )]
+Solution:index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery before() and after()</title>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            $("#btn1").click(function(){
+                $("#para").before("<p>This is text BEFORE paragraph</p>");
+            });
+
+            $("#btn2").click(function(){
+                $("#para").after("<p>This is text AFTER paragraph</p>");
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+
+<h2>jQuery Example</h2>
+
+<p id="para">This is the original paragraph.</p>
+
+<button id="btn1">Add Before</button>
+<button id="btn2">Add After</button>
+
+</body>
+</html>
+
+run:http://localhost/jquery/index.html

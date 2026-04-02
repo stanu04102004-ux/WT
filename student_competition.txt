@@ -1,0 +1,129 @@
+5. Consider the following entities and their relationships
+Student (Stud_id,name,class)
+Competition (c_no,c_name,type)
+Relationship between student and competition is many-many with attribute rank and
+year. Create a RDB in 3NF for the above and solve the following. Using above database write
+a script in PHP to accept a competition name from user and display information of student who
+has secured 1st rank in that competition.
+
+Solution:
+CREATE TABLE Student (
+    stud_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    class VARCHAR(20)
+);
+
+CREATE TABLE Competition (
+    c_no INT PRIMARY KEY,
+    c_name VARCHAR(50),
+    type VARCHAR(30)
+);
+
+CREATE TABLE Participation (
+    stud_id INT,
+    c_no INT,
+    rank INT,
+    year INT,
+    PRIMARY KEY (stud_id, c_no, year),
+    FOREIGN KEY (stud_id) REFERENCES Student(stud_id),
+    FOREIGN KEY (c_no) REFERENCES Competition(c_no)
+);
+
+
+INSERT INTO Student VALUES
+(1, 'Amit', 'TYBSc'),
+(2, 'Neha', 'SYBSc'),
+(3, 'Rahul', 'TYBSc'),
+(4, 'Sneha', 'FYBSc');
+
+INSERT INTO Competition VALUES
+(101, 'Coding Competition', 'Technical'),
+(102, 'Quiz Competition', 'Academic'),
+(103, 'Dance Competition', 'Cultural');
+
+INSERT INTO Participation VALUES
+(1, 101, 1, 2024),   -- Amit got 1st in Coding
+(2, 101, 2, 2024),
+(3, 101, 3, 2024),
+
+(2, 102, 1, 2024),   -- Neha got 1st in Quiz
+(1, 102, 2, 2024),
+
+(4, 103, 1, 2024),   -- Sneha got 1st in Dance
+(3, 103, 2, 2024);
+
+vim index.html
+<html>
+<body>
+
+<h2>Enter Competition Name</h2>
+
+<form method="post" action="result.php">
+    Competition Name:
+    <input type="text" name="cname" required>
+    <input type="submit" value="Search">
+</form>
+
+</body>
+</html>
+
+
+vim result.php
+<?php
+
+$conn = pg_connect("host=localhost dbname=college user=postgres password=yourpassword");
+
+if (!$conn) {
+    die("Connection failed");
+}
+
+$cname = $_POST['cname'];
+
+$query = "
+SELECT s.stud_id, s.name, s.class, p.year
+FROM Student s
+JOIN Participation p ON s.stud_id = p.stud_id
+JOIN Competition c ON p.c_no = c.c_no
+WHERE c.c_name = '$cname' AND p.rank = 1
+";
+
+$result = pg_query($conn, $query);
+
+if (pg_num_rows($result) > 0) {
+
+    echo "<table border='1'>";
+    echo "<tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Year</th>
+          </tr>";
+
+    while ($row = pg_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>".$row['stud_id']."</td>";
+        echo "<td>".$row['name']."</td>";
+        echo "<td>".$row['class']."</td>";
+        echo "<td>".$row['year']."</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+
+} else {
+    echo "No student found!";
+}
+
+pg_close($conn);
+
+?>
+
+
+run->http://localhost/index.php
+Enter:
+
+Coding Competition
+
+SELECT * FROM Student;
+SELECT * FROM Competition;
+SELECT * FROM Participation;

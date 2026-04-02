@@ -1,0 +1,74 @@
+18. Write an AJAX program to read the contact.dat file and print the contents of the
+file in a tabular format when the user clicks on the print button. Contact.dat file should
+contain srno, name, residence number, mobile number, Address. [Enter at least 3
+record in contact.dat file]
+Solution:
+
+/var/www/html/contact.dat
+
+1,Amit,0201234567,9876543210,Pune
+2,Neha,0227654321,9123456780,Mumbai
+3,Rahul,0112345678,9988776655,Delhi
+
+index.html
+<html>
+<head>
+<script>
+function loadData() {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("tableData").innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "read.php", true);
+    xhttp.send();
+}
+</script>
+</head>
+
+<body>
+
+<h2>Contact List</h2>
+
+<button onclick="loadData()">Print</button>
+
+<div id="tableData"></div>
+
+</body>
+</html>
+
+read.php
+<?php
+
+$file = fopen("contact.dat", "r");
+
+echo "<table border='1'>";
+echo "<tr>
+        <th>Sr No</th>
+        <th>Name</th>
+        <th>Residence</th>
+        <th>Mobile</th>
+        <th>Address</th>
+      </tr>";
+
+while(($line = fgets($file)) != false) {
+    $data = explode(",", $line);
+
+    echo "<tr>";
+    foreach($data as $value) {
+        echo "<td>" . trim($value) . "</td>";
+    }
+    echo "</tr>";
+}
+
+echo "</table>";
+
+fclose($file);
+
+?>
+
+run:php -S localhost:8000
+http://localhost/index.html

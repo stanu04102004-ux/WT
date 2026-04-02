@@ -1,0 +1,38 @@
+8. Write a PHP script to read “book.xml” file into a simpleXML object. Display attributes
+and elements .( simple_xml_load_file() function )
+Solution:
+vim book.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book id="101">
+        <title>PHP Basics</title>
+        <author>John</author>
+        <price>300</price>
+    </book>
+
+    <book id="102">
+        <title>Web Development</title>
+        <author>Smith</author>
+        <price>450</price>
+    </book>
+</books>
+
+vim book.php
+<?php
+$xml = simplexml_load_file("book.xml");
+
+echo "<h2>Book Details</h2>";
+
+foreach($xml->book as $b) {
+
+    // Display attribute
+    echo "Book ID: " . $b['id'] . "<br>";
+
+    // Display elements
+    echo "Title: " . $b->title . "<br>";
+    echo "Author: " . $b->author . "<br>";
+    echo "Price: " . $b->price . "<br>";
+
+    echo "<br>";
+}
+?>

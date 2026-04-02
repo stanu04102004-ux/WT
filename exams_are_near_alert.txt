@@ -1,0 +1,41 @@
+12. Write a JavaScript to display the message ‘Exams are near, have you started preparing
+for?’ (user alert box ) and Accept any two numbers from the user and display the
+addition of two numbers .(Use Prompt and confirm box)
+Solution:demo.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alert, Prompt, Confirm</title>
+
+    <script>
+        // Alert message
+        alert("Exams are near, have you started preparing for?");
+
+        // Confirm box
+        var ans = confirm("Do you want to continue?");
+
+        if(ans == true) {
+
+            // Prompt for two numbers
+            var num1 = prompt("Enter first number:");
+            var num2 = prompt("Enter second number:");
+
+            // Convert to numbers and add
+            var sum = parseInt(num1) + parseInt(num2);
+
+            alert("Addition is: " + sum);
+        } 
+        else {
+            alert("You cancelled!");
+        }
+    </script>
+
+</head>
+<body>
+
+<h2>JavaScript Demo</h2>
+
+</body>
+</html>
+
+run:http://localhost/demo.html

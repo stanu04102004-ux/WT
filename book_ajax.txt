@@ -1,0 +1,101 @@
+23. Write an Ajax program to get book details from an XML file when the user selects a
+book name. Create an XML file for storing details of a book(title, author, year, price).
+Solution:
+vim books.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book>
+        <title>Java</title>
+        <author>James Gosling</author>
+        <year>1995</year>
+        <price>500</price>
+    </book>
+
+    <book>
+        <title>Python</title>
+        <author>Guido van Rossum</author>
+        <year>1991</year>
+        <price>400</price>
+    </book>
+
+    <book>
+        <title>DBMS</title>
+        <author>Navathe</author>
+        <year>2000</year>
+        <price>600</price>
+    </book>
+</books>
+
+vim index.html
+<html>
+<head>
+<script>
+function showBook(str) {
+    if (str == "") {
+        document.getElementById("result").innerHTML = "";
+        return;
+    }
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("result").innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "book.php?title=" + str, true);
+    xhttp.send();
+}
+</script>
+</head>
+
+<body>
+
+<h2>Select Book:</h2>
+
+<select onchange="showBook(this.value)">
+    <option value="">Select</option>
+    <option value="Java">Java</option>
+    <option value="Python">Python</option>
+    <option value="DBMS">DBMS</option>
+</select>
+
+<div id="result"></div>
+
+</body>
+</html>
+
+vim book.php
+<?php
+
+$title = $_GET['title'];
+
+$xml = simplexml_load_file("books.xml");
+
+echo "<table border='1'>";
+echo "<tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Year</th>
+        <th>Price</th>
+      </tr>";
+
+foreach ($xml->book as $book) {
+
+    if ($book->title == $title) {
+        echo "<tr>";
+        echo "<td>".$book->title."</td>";
+        echo "<td>".$book->author."</td>";
+        echo "<td>".$book->year."</td>";
+        echo "<td>".$book->price."</td>";
+        echo "</tr>";
+    }
+}
+
+echo "</table>";
+
+?>
+
+run:php -S localhost:8000
+http://localhost/index.html

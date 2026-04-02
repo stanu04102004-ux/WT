@@ -1,0 +1,61 @@
+7. Create XML file named “Item.xml”with item-name, item-rate, item quantity Store the
+details of 5 Items of different Types. Display XML file records in tabular format using
+PHP.
+Solution:
+vim Item.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item>
+        <name>Pen</name>
+        <rate>10</rate>
+        <quantity>50</quantity>
+    </item>
+
+    <item>
+        <name>Notebook</name>
+        <rate>50</rate>
+        <quantity>30</quantity>
+    </item>
+
+    <item>
+        <name>Pencil</name>
+        <rate>5</rate>
+        <quantity>100</quantity>
+    </item>
+
+    <item>
+        <name>Eraser</name>
+        <rate>3</rate>
+        <quantity>60</quantity>
+    </item>
+
+    <item>
+        <name>Bag</name>
+        <rate>500</rate>
+        <quantity>10</quantity>
+    </item>
+</items>
+
+vim item.php
+<?php
+$xml = simplexml_load_file("Item.xml");
+
+echo "<h2>Item Details</h2>";
+
+echo "<table border='1'>
+        <tr>
+            <th>Item Name</th>
+            <th>Rate</th>
+            <th>Quantity</th>
+        </tr>";
+
+foreach($xml->item as $i) {
+    echo "<tr>
+            <td>$i->name</td>
+            <td>$i->rate</td>
+            <td>$i->quantity</td>
+          </tr>";
+}
+
+echo "</table>";
+?>

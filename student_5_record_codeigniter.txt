@@ -1,0 +1,80 @@
+10. Create a table student having attributes(rollno, name, class) containing at least 5
+records . Using codeigniter, display all its records.
+Solution:
+Create Database test;
+CREATE TABLE student (
+    rollno INT PRIMARY KEY,
+    name VARCHAR(50),
+    class VARCHAR(20)
+);
+
+INSERT INTO student VALUES
+(1, 'Prachi', 'FYBSc'),
+(2, 'Rahul', 'SYBSc'),
+(3, 'Sneha', 'TYBSc'),
+(4, 'Amit', 'FYBCA'),
+(5, 'Neha', 'SYBCA');
+
+File: application/config/database.php
+
+$db['default'] = array(
+    'hostname' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'database' => 'test',
+    'dbdriver' => 'mysqli',
+);
+
+in model(Student_model.php)
+<?php
+class Student_model extends CI_Model {
+
+    public function get_students() {
+        return $this->db->get('student')->result();
+    }
+}
+?>
+
+Controller(Student.php)
+<?php
+class Student extends CI_Controller {
+
+    public function index() {
+        $this->load->model('Student_model');
+        $data['students'] = $this->Student_model->get_students();
+        $this->load->view('student_view', $data);
+    }
+}
+?>
+
+in view(student_view.php)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Records</title>
+</head>
+<body>
+
+<h2>Student Details</h2>
+
+<table border="1">
+    <tr>
+        <th>Roll No</th>
+        <th>Name</th>
+        <th>Class</th>
+    </tr>
+
+    <?php foreach($students as $s) { ?>
+    <tr>
+        <td><?php echo $s->rollno; ?></td>
+        <td><?php echo $s->name; ?></td>
+        <td><?php echo $s->class; ?></td>
+    </tr>
+    <?php } ?>
+
+</table>
+
+</body>
+</html>
+
+run http://localhost/codeigniter/index.php/student

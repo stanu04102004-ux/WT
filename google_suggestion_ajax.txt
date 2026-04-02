@@ -1,0 +1,73 @@
+22. Write an Ajax program to fetch suggestions when is user is typing in a textbox. (eg
+like google suggestions. Hint create array of suggestions and matching string will be
+displayed).
+Solution:
+vim index.html
+<html>
+<head>
+<script>
+function showSuggestions(str) {
+
+    if (str.length == 0) {
+        document.getElementById("output").innerHTML = "";
+        return;
+    }
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("output").innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "suggest.php?q=" + str, true);
+    xhttp.send();
+}
+</script>
+</head>
+
+<body>
+
+<h2>Search:</h2>
+
+<input type="text" onkeyup="showSuggestions(this.value)">
+
+<div id="output"></div>
+
+</body>
+</html>
+
+
+vim suggest.php
+<?php
+
+$q = $_GET['q'];
+
+// Array of suggestions
+$suggestions = array(
+    "apple", "banana", "mango", "orange",
+    "grapes", "pineapple", "papaya",
+    "watermelon", "kiwi", "cherry"
+);
+
+$result = "";
+
+// Find matches
+foreach ($suggestions as $item) {
+    if (stripos($item, $q) === 0) {
+        $result .= $item . "<br>";
+    }
+}
+
+// Output result
+if ($result == "") {
+    echo "No suggestions";
+} else {
+    echo $result;
+}
+
+?>
+
+run:php -S localhost:8000
+http://localhost/index.html

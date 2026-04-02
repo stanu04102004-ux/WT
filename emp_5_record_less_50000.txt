@@ -1,0 +1,63 @@
+16. Create a table employee (emp_no, emp_name, address, salary). Insert 5 records. Fetch and
+display records where salary &gt; 50000.
+Solution:
+CREATE TABLE employee (
+    emp_no INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    address VARCHAR(100),
+    salary INT
+);
+
+INSERT INTO employee VALUES
+(1, 'Amit', 'Pune', 60000),
+(2, 'Neha', 'Mumbai', 45000),
+(3, 'Rahul', 'Delhi', 70000),
+(4, 'Sneha', 'Nagpur', 30000),
+(5, 'Karan', 'Nashik', 55000);
+
+SELECT * FROM employee
+WHERE salary > 50000;
+
+vim employee.php
+<?php
+
+$conn = pg_connect("host=localhost dbname=college user=postgres password=yourpassword");
+
+if (!$conn) {
+    die("Connection failed");
+}
+
+$query = "SELECT * FROM employee WHERE salary > 50000";
+
+$result = pg_query($conn, $query);
+
+if (pg_num_rows($result) > 0) {
+
+    echo "<table border='1'>";
+    echo "<tr>
+            <th>Emp No</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Salary</th>
+          </tr>";
+
+    while ($row = pg_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>".$row['emp_no']."</td>";
+        echo "<td>".$row['emp_name']."</td>";
+        echo "<td>".$row['address']."</td>";
+        echo "<td>".$row['salary']."</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+
+} else {
+    echo "No records found";
+}
+
+pg_close($conn);
+
+?>
+
+run->http://localhost/employee.php

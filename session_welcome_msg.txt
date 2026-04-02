@@ -1,0 +1,63 @@
+4. Write a PHP script to accept username and password. If in the first three
+chances, the username and password entered is correct then display the second
+form with “Welcome message” otherwise display an error message. [Use
+Session]
+
+Solution:login.php
+<?php
+session_start();
+
+// correct username and password
+$user = "admin";
+$pass = "123";
+
+// initialize attempts
+if(!isset($_SESSION['count'])) {
+    $_SESSION['count'] = 0;
+}
+
+// check login
+if(isset($_POST['login'])) {
+
+    if($_POST['username'] == $user && $_POST['password'] == $pass) {
+        $_SESSION['success'] = true;
+    } else {
+        $_SESSION['count']++;
+        $error = "Invalid Username or Password";
+    }
+}
+?>
+
+<?php if(isset($_SESSION['success'])) { ?>
+
+    <h2>Welcome! Login Successful</h2>
+
+    <!-- Second Form -->
+    <form>
+        Enter Name: <input type="text"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <?php session_destroy(); ?>
+
+<?php } else if($_SESSION['count'] < 3) { ?>
+
+    <?php if(isset($error)) { echo "<p style='color:red;'>$error</p>"; } ?>
+
+    <!-- Login Form -->
+    <form method="post">
+        Username: <input type="text" name="username" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
+        <input type="submit" name="login" value="Login">
+    </form>
+
+    <p>Attempts left: <?php echo 3 - $_SESSION['count']; ?></p>
+
+<?php } else { ?>
+
+    <h3 style="color:red;">Only 3 attempts allowed!</h3>
+
+    <?php session_destroy(); ?>
+
+<?php } ?>
+run:localhost/login.php

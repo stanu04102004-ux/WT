@@ -1,0 +1,51 @@
+6. Add a JavaScript File in Codeigniter. The Javascript code should check whether
+a number is positive or negative.
+solution:write this code in application->view
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Number is positive or negative</title>
+
+    <script>
+        function checkNumber() {
+            var num = document.getElementById("number").value;
+
+            if (num > 0) {
+                document.getElementById("Number is Positive");
+            } 
+            else if (num < 0) {
+                document.getElementById("Number is Negative");
+            } 
+            else {
+                document.getElementById("Number is Zero");
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+<h2>Check Positive or Negative Number</h2>
+
+Enter Number: <input type="number" id="number"><br><br>
+
+<button onclick="checkNumber()">Check</button>
+<p id="result"></p>
+
+</body>
+</html>
+
+Go to Controller welcome.php file and then write
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+
+class Welcome extends CI_Controller {
+public function dsplay()
+{
+	$this->load->view('Check');
+}
+}
+?>
+
+run using localhost/bcit/Welcome.php/Check

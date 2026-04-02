@@ -1,0 +1,91 @@
+27. Create a table student having attributes(rollno, name, class). Using codeigniter,
+connect to the database and insert 5 records in it.
+Solution:CREATE DATABASE college;
+
+CREATE TABLE student (
+    rollno INT,
+    name VARCHAR(50),
+    class VARCHAR(20)
+);
+
+then open application->config->database
+$db['default'] = array(
+    'dsn'   => '',
+    'hostname' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'database' => 'college',  // give the name of the database
+    'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    'db_debug' => TRUE,
+    'cache_on' => FALSE,
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+);
+
+then open controller vim Stud_controller.php
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Stud_controller extends CI_Controller
+ {
+	public function _construct()
+	{
+		parent:: _construct();
+		$this->load->model('Student_Model');
+	}
+
+	
+	public function index()
+	{
+		$this->load->view('Student_view');
+	}
+	public function insert_data()
+	{
+		$data=array('roll'=>$this->input->post('roll'),'name'=>$this->input->post('name'),'class'=>$this->input->post('class'));
+		$this->load->model('Student_Model');
+		$id=$this->Student_Model->insert_user($data);
+		//echo "Id is $id";
+		if($id==1)
+			echo "Record inserted successfully";
+		else
+			echo "Record not inserted";
+		redirect('Stud_controller');
+	}
+}
+?>
+
+then open model Student_Model.php
+<?php
+class Student_model extends CI_Model 
+{
+	public function insert_user($data)
+	{
+		$this->load->database();
+		return $this->db->insert('student',$data);
+	}
+}
+?>
+
+then oopen view Student_view.php
+<html>
+	<head>
+		<title>Student Form</title>
+</head>
+<body>
+	<h2>Add User</h2>
+	<form method="post" action="<?php echo base_url('index.php/Stud_controller/insert_data'); ?>">
+		<label>Roll No</label>
+		<input type="text" name="roll" required><br>
+		<label>Name</label>
+		<input type="text" name="name" required><br>
+		<label>class</label>
+		<input type="text" name="class" required><br>
+		<button type="submit">Submit</button>
+</form>
+</body>
+</html>
+
+runn::::http://localhost/codeigniter/index.php/student
+then go to sql and type there select * from student and u can see all the records inserted there.

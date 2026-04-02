@@ -1,0 +1,68 @@
+19. Write AJAX program where the user is requested to write his or her name in a text box,
+and the server keeps sending back responses while the user is typing. If the user name is not
+entered then the message displayed will be, “Stranger, please tell me your name!”. If the name
+is Rohit, Virat, Dhoni, Ashwin or Harbhajan , the server responds with “Hello, master !”. If the
+
+name is anything else, the message will be “, I don’t know you!”.
+
+Solution:
+index.html
+<html>
+<head>
+<script>
+function showResponse(str) {
+    if (str.length == 0) {
+        document.getElementById("msg").innerHTML = "Stranger, please tell me your name!";
+        return;
+    }
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("msg").innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "response.php?name=" + str, true);
+    xhttp.send();
+}
+</script>
+</head>
+
+<body>
+
+<h2>Enter Your Name:</h2>
+
+<input type="text" onkeyup="showResponse(this.value)">
+
+<p id="msg"></p>
+
+</body>
+</html>
+
+
+vim response.php
+<?php
+
+$name = $_GET['name'];
+
+if (empty($name)) {
+    echo "Stranger, please tell me your name!";
+}
+else {
+    $name_lower = strtolower($name);
+
+    $masters = ["rohit", "virat", "dhoni", "ashwin", "harbhajan"];
+
+    if (in_array($name_lower, $masters)) {
+        echo "Hello, master!";
+    } else {
+        echo $name . ", I don't know you!";
+    }
+}
+
+?>
+
+run:php -S localhost:8000
+http://localhost/index.html

@@ -1,0 +1,50 @@
+14. Write a JavaScript function to validate username and password for a membership
+form.
+Solution:form.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Validation</title>
+
+    <script>
+        function validate() {
+            var user = document.getElementById("username").value;
+            var pass = document.getElementById("password").value;
+
+            // check empty
+            if(user == "" || pass == "") {
+                alert("Username and Password cannot be empty");
+                return false;
+            }
+
+            // username length check
+            if(user.length < 5) {
+                alert("Username must be at least 5 characters");
+                return false;
+            }
+
+            // password length check
+            if(pass.length < 6) {
+                alert("Password must be at least 6 characters");
+                return false;
+            }
+
+            alert("Login Successful!");
+            return true;
+        }
+    </script>
+
+</head>
+<body>
+
+<h2>Membership Form</h2>
+
+<form onsubmit="return validate()">
+    Username: <input type="text" id="username"><br><br>
+    Password: <input type="password" id="password"><br><br>
+
+    <input type="submit" value="Login">
+</form>
+
+</body>
+</html>
